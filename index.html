@@ -4,262 +4,864 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta name="theme-color" content="#155263" />
-<title>SplitEase — 4 Person</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/icons/favicon.ico?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=2">
+<link rel="manifest" href="/manifest.json">
+<title>Ali's SplitEase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#FBF7F2; --card:#FFFFFF; --ink:#2C1A08; --muted:#8A7A6D; --line:#EFE6DC;
-    --teal:#155263; --gold:#FFC93C; --shadow:0 8px 24px rgba(44,26,8,0.08);
+    --bg:#FBF7F2;
+    --card:#FFFFFF;
+    --ink:#2C1A08;
+    --muted:#8A7A6D;
+    --ali:#C94B1E;
+    --ali-soft:#FDE8DC;
+    --mus:#1E7C5A;
+    --mus-soft:#DFF2EC;
+    --line:#EFE6DC;
+    --shadow: 0 8px 24px rgba(44,26,8,0.08);
+    --brand-teal:#1F596A;
+    --brand-teal-light:#4F7D8A;
+    --brand-teal-dark:#155263;
+    --brand-gold:#FFC93C;
   }
-  *{box-sizing:border-box;} body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;padding-bottom:40px;}
-  .wrap{max-width:520px;margin:0 auto;padding:18px 16px;}
-  h1{font-family:'Poppins',sans-serif;font-size:19px;margin:0 0 16px;color:#fff;background:var(--teal);padding:14px 16px;border-radius:14px;}
-  .card{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px;}
-  .field{margin-bottom:12px;} label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;}
-  input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);font-size:15px;font-family:inherit;background:#FFFDFB;}
-  .row2{display:flex;gap:10px;} .row2 .field{flex:1;}
-  .shares-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .shares-grid .field label{font-weight:500;text-transform:none;font-size:13px;}
-  .btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;font-size:15px;color:#fff;cursor:pointer;background:var(--teal);margin-top:4px;}
-  .btn.gold{background:var(--gold);color:var(--teal);}
-  .tabs{display:flex;background:var(--card);border-radius:12px;padding:4px;box-shadow:var(--shadow);margin-bottom:16px;}
-  .tab{flex:1;text-align:center;padding:9px 0;border-radius:9px;font-weight:700;font-size:13.5px;cursor:pointer;color:var(--muted);}
-  .tab.active{background:var(--teal);color:#fff;}
-  .balance-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;}
-  .balance-row:last-child{border-bottom:none;}
-  .balance-row b.pos{color:#1E7C5A;} .balance-row b.neg{color:#C94B1E;}
-  .suggestion{font-size:13.5px;padding:8px 0;border-bottom:1px solid var(--line);}
-  .suggestion:last-child{border-bottom:none;}
-  .txn{padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px;display:flex;justify-content:space-between;gap:10px;}
-  .txn:last-child{border-bottom:none;}
-  .txn-sub{color:var(--muted);font-size:12px;}
-  .empty{color:var(--muted);font-size:13.5px;text-align:center;padding:16px 0;}
-  .hint{font-size:11.5px;color:var(--muted);margin-top:4px;}
-  .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--teal);color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:.3s;pointer-events:none;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding-bottom:40px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .wrap{max-width:520px;margin:0 auto;padding:18px 16px 8px;}
+
+  /* ---- Header ---- */
+  .app-header{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;
+    background:linear-gradient(135deg, var(--brand-teal-dark), var(--brand-teal-light));
+    border-radius:18px; padding:12px 14px; box-shadow:var(--shadow);
+  }
+  .brand-logo-img{width:44px;height:44px;border-radius:10px;flex:none;display:block;box-shadow:0 2px 6px rgba(0,0,0,0.15);}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{width:38px;height:38px;flex:none;}
+  .brand h1{font-family:'Poppins',sans-serif;font-size:19px;font-weight:800;margin:0;letter-spacing:-0.02em;white-space:nowrap;color:#FFFFFF;}
+  @media (max-width:360px){ .brand h1{font-size:16px;} }
+  .icon-btn{
+    width:38px;height:38px;border-radius:12px;border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .icon-btn svg{width:19px;height:19px;stroke:var(--brand-gold);fill:none;stroke-width:1.8;}
+
+  /* ---- Balance seesaw (signature element) ---- */
+  .balance-card{
+    background:var(--card); border-radius:20px; padding:20px 18px 16px;
+    box-shadow:var(--shadow); margin-bottom:16px; position:relative; overflow:hidden;
+  }
+  .balance-title{font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600;margin-bottom:14px;}
+  .seesaw{position:relative;height:64px;margin:0 4px 6px;}
+  .seesaw-track{position:absolute;left:0;right:0;top:28px;height:2px;background:var(--line);}
+  .seesaw-fulcrum{position:absolute;left:50%;top:24px;transform:translateX(-50%);width:0;height:0;
+    border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:12px solid var(--brand-teal-dark);}
+  .seesaw-bar{position:absolute;top:26px;left:50%;height:6px;border-radius:6px;transform-origin:center;
+    transition:transform .5s cubic-bezier(.34,1.56,.64,1), width .5s ease, left .5s ease;}
+  .seesaw-pill{position:absolute;top:-2px;width:auto;padding:8px 14px;border-radius:14px;font-weight:700;font-size:14px;
+    display:flex;flex-direction:column;align-items:center;line-height:1.15;transition:transform .5s cubic-bezier(.34,1.56,.64,1);}
+  .pill-ali{left:0;background:var(--ali-soft);color:var(--ali);}
+  .pill-mus{right:0;background:var(--mus-soft);color:var(--mus);}
+  .pill-name{font-size:11px;font-weight:600;opacity:.85;text-transform:uppercase;letter-spacing:.03em;}
+  .pill-amt{font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;}
+  .balance-summary{text-align:center;margin-top:10px;font-size:13.5px;color:var(--muted);font-weight:500;}
+  .balance-summary b{color:var(--ink);}
+
+  /* ---- Tabs ---- */
+  .tabs{display:flex;background:var(--card);border-radius:14px;padding:4px;box-shadow:var(--shadow);margin-bottom:16px;}
+  .tab-btn{flex:1;border:none;background:transparent;padding:10px 0;border-radius:10px;font-family:'Inter',sans-serif;
+    font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;transition:all .2s ease;}
+  .tab-btn.active{background:var(--brand-teal-dark);color:#fff;}
+
+  /* ---- Form card ---- */
+  .form-card{background:var(--card);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:16px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;}
+  .field input, .field select, .field textarea{
+    width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);
+    font-family:'Inter',sans-serif;font-size:15px;color:var(--ink);background:#FFFDFB;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{outline:none;border-color:var(--ink);}
+  .row2{display:flex;gap:10px;}
+  .row2 .field{flex:1;}
+
+  .payer-toggle{display:flex;gap:10px;}
+  .payer-opt{flex:1;padding:12px 8px;border-radius:12px;border:1.5px solid var(--line);text-align:center;
+    cursor:pointer;font-weight:700;font-size:14px;background:#FFFDFB;transition:all .15s ease;}
+  .payer-opt.sel-ali{border-color:var(--ali);background:var(--ali-soft);color:var(--ali);}
+  .payer-opt.sel-mus{border-color:var(--mus);background:var(--mus-soft);color:var(--mus);}
+
+  .shares-row{display:flex;gap:10px;align-items:flex-end;}
+  .shares-row .field{flex:1;margin-bottom:0;}
+  .shares-hint{font-size:11px;color:var(--muted);margin-top:6px;}
+
+  .mode-grid{display:flex;gap:8px;}
+  .mode-opt{flex:1;padding:10px 4px;border-radius:12px;border:1.5px solid var(--line);text-align:center;
+    cursor:pointer;font-weight:600;font-size:13px;background:#FFFDFB;}
+  .mode-opt.sel{border-color:var(--ink);background:var(--ink);color:#fff;}
+
+  .submit-btn{
+    width:100%;padding:15px;border:none;border-radius:14px;font-family:'Poppins',sans-serif;
+    font-weight:700;font-size:15.5px;color:#fff;cursor:pointer;margin-top:4px;
+    background:linear-gradient(135deg, var(--ali), #E07A46);
+    box-shadow:0 6px 16px rgba(201,75,30,0.3);
+  }
+  .submit-btn.mode-settle{background:linear-gradient(135deg, var(--mus), #2FA37A);box-shadow:0 6px 16px rgba(30,124,90,0.3);}
+  .submit-btn:disabled{opacity:.6;}
+
+  /* ---- Recent transactions ---- */
+  .recent-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:4px 2px 10px;}
+  .recent-scroll{max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-right:2px;}
+  .txn-card{background:var(--card);border-radius:16px;padding:13px 14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;}
+  .txn-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .txn-icon svg{width:18px;height:18px;stroke-width:1.8;fill:none;}
+  .txn-icon.ali{background:var(--ali-soft);} .txn-icon.ali svg{stroke:var(--ali);}
+  .txn-icon.mus{background:var(--mus-soft);} .txn-icon.mus svg{stroke:var(--mus);}
+  .txn-icon.settle{background:#EFEAF9;} .txn-icon.settle svg{stroke:#5B4E9E;}
+  .txn-body{flex:1;min-width:0;}
+  .txn-title{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .txn-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+  .txn-amt{font-family:'Poppins',sans-serif;font-weight:800;font-size:14.5px;white-space:nowrap;}
+  .txn-actions{display:flex;flex-direction:column;gap:4px;flex:none;}
+  .txn-action-btn{width:26px;height:26px;border:none;background:transparent;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;border-radius:8px;padding:0;}
+  .txn-action-btn:hover{background:var(--bg);}
+  .txn-action-btn svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:1.8;}
+  .txn-action-btn[data-action="delete"]:hover svg{stroke:var(--ali);}
+  .cancel-edit-link{display:none;text-align:center;font-size:13px;color:var(--muted);
+    text-decoration:underline;cursor:pointer;margin-top:10px;background:none;border:none;width:100%;padding:6px 0;font-family:'Inter',sans-serif;}
+  .empty-state{text-align:center;padding:28px 10px;color:var(--muted);font-size:13.5px;}
+
+  /* ---- Settings modal ---- */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(44,26,8,0.45);display:none;align-items:flex-end;justify-content:center;z-index:50;}
+  .modal-backdrop.open{display:flex;}
+  .modal{background:var(--card);width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:20px 18px 26px;box-shadow:0 -8px 30px rgba(0,0,0,0.2);}
+  .modal h3{font-family:'Poppins',sans-serif;margin:0 0 14px;font-size:17px;}
+  .modal-close{
+    float:right; width:32px;height:32px;border-radius:10px;border:1px solid var(--line);
+    background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brand-teal-dark);color:#fff;
+    padding:12px 20px;border-radius:12px;font-size:13.5px;font-weight:600;opacity:0;transition:all .3s ease;z-index:60;pointer-events:none;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  footer{text-align:center;font-size:11.5px;color:var(--brand-teal-dark);margin-top:22px;letter-spacing:.02em;font-weight:600;}
+
+  ::-webkit-scrollbar{width:5px;}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:10px;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>SplitEase — 4 Person</h1>
 
-  <div class="tabs">
-    <div class="tab active" data-tab="expense" id="tabExpense">+ Expense</div>
-    <div class="tab" data-tab="settle" id="tabSettle">Settle up</div>
-    <div class="tab" data-tab="balance" id="tabBalance">Balances</div>
+<div class="wrap">
+
+  <div class="app-header">
+    <div class="brand">
+<img class="brand-logo-img" alt="Ali's SplitEase logo" src="data:image/png;base64,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"/>
+      <h1>Ali's SplitEase</h1>
+    </div>
+    <button class="icon-btn" id="settingsBtn" aria-label="Settings">
+      <svg viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1.08-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9c.14.42.42.76.83 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </button>
   </div>
 
-  <div class="card" id="expenseForm">
-    <div class="row2">
-      <div class="field"><label>Date</label><input type="date" id="expDate"></div>
-      <div class="field"><label>Amount</label><input type="number" id="expAmount" step="0.01" placeholder="0.00"></div>
+  <!-- Balance seesaw -->
+  <div class="balance-card">
+    <div class="balance-title">Current balance</div>
+    <div class="seesaw">
+      <div class="seesaw-track"></div>
+      <div class="seesaw-fulcrum"></div>
+      <div id="pillAli" class="seesaw-pill pill-ali">
+        <span class="pill-name">Ali Asgar</span>
+        <span class="pill-amt" id="amtAli">0</span>
+      </div>
+      <div id="pillMus" class="seesaw-pill pill-mus">
+        <span class="pill-name">Mustafa</span>
+        <span class="pill-amt" id="amtMus">0</span>
+      </div>
     </div>
-    <div class="field"><label>Place / Description</label><input type="text" id="expPlace" placeholder="e.g. Dinner"></div>
-    <div class="field"><label>Paid by</label><select id="expPayer"></select></div>
+    <div class="balance-summary" id="balanceSummary">Loading balances…</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="expense" id="tabExpense">+ Expense</button>
+    <button class="tab-btn" data-tab="settle" id="tabSettle">Settle up</button>
+    <button class="tab-btn" data-tab="report" id="tabReport">Report</button>
+  </div>
+
+  <!-- Expense form -->
+  <div class="form-card" id="expenseForm">
+    <div class="row2">
+      <div class="field">
+        <label for="expDate">Date</label>
+        <input type="date" id="expDate"/>
+      </div>
+      <div class="field">
+        <label for="expAmount">Amount (AED)</label>
+        <input type="number" id="expAmount" placeholder="0.00" inputmode="decimal" step="0.01"/>
+      </div>
+    </div>
+    <div class="field">
+      <label for="expPlace">Place / Description</label>
+      <input type="text" id="expPlace" placeholder="e.g. Daily Nihari"/>
+    </div>
+    <div class="field">
+      <label>Paid by</label>
+      <div class="payer-toggle">
+        <div class="payer-opt sel-ali" id="payerAli" data-payer="ali">Ali Asgar</div>
+        <div class="payer-opt" id="payerMus" data-payer="mus">Mustafa</div>
+      </div>
+    </div>
     <div class="field">
       <label>Shares (editable)</label>
-      <div class="shares-grid" id="sharesGrid"></div>
-      <div class="hint">Split is proportional to shares — 0 means that person owes nothing.</div>
+      <div class="shares-row">
+        <div class="field">
+          <input type="number" id="shareAli" min="0" step="1"/>
+        </div>
+        <div class="field">
+          <input type="number" id="shareMus" min="0" step="1"/>
+        </div>
+      </div>
+      <div class="shares-hint">Split is proportional to shares. Defaults come from Settings.</div>
     </div>
-    <div class="field"><label>Notes (optional)</label><textarea id="expNote" rows="2"></textarea></div>
-    <button class="btn" id="submitExpense">Save expense</button>
+    <div class="field">
+      <label for="expNote">Additional info (optional)</label>
+      <textarea id="expNote" rows="2" placeholder="Notes…"></textarea>
+    </div>
+    <button class="submit-btn" id="submitExpense">Save expense</button>
+    <button type="button" class="cancel-edit-link" id="cancelExpenseEdit">Cancel edit</button>
   </div>
 
-  <div class="card" id="settleForm" style="display:none;">
+  <!-- Settlement form -->
+  <div class="form-card" id="settleForm" style="display:none;">
+    <div class="field">
+      <label>From → To</label>
+      <div class="payer-toggle">
+        <div class="payer-opt sel-ali" id="fromAli" data-from="ali">Ali → Mustafa</div>
+        <div class="payer-opt" id="fromMus" data-from="mus">Mustafa → Ali</div>
+      </div>
+    </div>
     <div class="row2">
-      <div class="field"><label>From</label><select id="setFrom"></select></div>
-      <div class="field"><label>To</label><select id="setTo"></select></div>
+      <div class="field">
+        <label for="setDate">Date</label>
+        <input type="date" id="setDate"/>
+      </div>
+      <div class="field">
+        <label for="setTime">Time</label>
+        <input type="time" id="setTime"/>
+      </div>
     </div>
+    <div class="field">
+      <label for="setAmount">Amount (AED)</label>
+      <input type="number" id="setAmount" placeholder="0.00" inputmode="decimal" step="0.01"/>
+    </div>
+    <div class="field">
+      <label>Mode of payment</label>
+      <div class="mode-grid">
+        <div class="mode-opt sel" data-mode="Cash">Cash</div>
+        <div class="mode-opt" data-mode="Bank Transfer">Bank Transfer</div>
+        <div class="mode-opt" data-mode="Other">Other</div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="setNote">Additional info (optional)</label>
+      <textarea id="setNote" rows="2" placeholder="Notes…"></textarea>
+    </div>
+    <button class="submit-btn mode-settle" id="submitSettle">Save settlement</button>
+    <button type="button" class="cancel-edit-link" id="cancelSettleEdit">Cancel edit</button>
+  </div>
+
+  <!-- Report -->
+  <div class="form-card" id="reportForm" style="display:none;">
+    <div class="field">
+      <label>Period</label>
+      <div class="mode-grid" id="reportModeToggle">
+        <div class="mode-opt sel" data-rmode="month">Monthly</div>
+        <div class="mode-opt" data-rmode="custom">Custom range</div>
+      </div>
+    </div>
+    <div class="field" id="reportMonthField">
+      <label for="reportMonth">Month</label>
+      <input type="month" id="reportMonth"/>
+    </div>
+    <div class="row2" id="reportCustomFields" style="display:none;">
+      <div class="field">
+        <label for="reportFrom">From</label>
+        <input type="date" id="reportFrom"/>
+      </div>
+      <div class="field">
+        <label for="reportTo">To</label>
+        <input type="date" id="reportTo"/>
+      </div>
+    </div>
+    <button class="submit-btn" id="runReportBtn" style="background:linear-gradient(135deg,var(--brand-teal-dark),var(--brand-teal-light));box-shadow:0 6px 16px rgba(31,89,106,0.3);">Generate report</button>
+
+    <div id="reportSummary" style="margin-top:16px;"></div>
+    <div class="recent-title" style="margin-top:16px;">Transactions in period</div>
+    <div class="recent-scroll" id="reportList" style="max-height:320px;"></div>
+  </div>
+
+  <!-- Recent transactions -->
+  <div id="recentWrap">
+    <div class="recent-title">Recent transactions</div>
+    <div class="recent-scroll" id="recentList">
+      <div class="empty-state">Loading…</div>
+    </div>
+  </div>
+
+  <footer>© Ali Asgar… 2026</footer>
+</div>
+
+<!-- Settings modal -->
+<div class="modal-backdrop" id="settingsModal">
+  <div class="modal" style="max-height:85vh;overflow-y:auto;">
+    <button class="icon-btn modal-close" id="closeSettings" aria-label="Close">
+      <svg viewBox="0 0 24 24"><path stroke="#2C1A08" stroke-width="1.8" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h3>Default shares</h3>
     <div class="row2">
-      <div class="field"><label>Date</label><input type="date" id="setDate"></div>
-      <div class="field"><label>Amount</label><input type="number" id="setAmount" step="0.01" placeholder="0.00"></div>
+      <div class="field">
+        <label for="setDefAli">Ali Asgar</label>
+        <input type="number" id="setDefAli" min="0" step="1"/>
+      </div>
+      <div class="field">
+        <label for="setDefMus">Mustafa</label>
+        <input type="number" id="setDefMus" min="0" step="1"/>
+      </div>
     </div>
-    <div class="field"><label>Mode</label><select id="setMode"><option>Cash</option><option>Bank Transfer</option><option>Other</option></select></div>
-    <div class="field"><label>Notes (optional)</label><textarea id="setNote" rows="2"></textarea></div>
-    <button class="btn gold" id="submitSettle">Save settlement</button>
-  </div>
 
-  <div class="card" id="balanceCard" style="display:none;">
-    <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Net balance per person</div>
-    <div id="netList"></div>
-    <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:var(--muted);margin:16px 0 8px;">Suggested settle-ups</div>
-    <div id="suggestList"></div>
-  </div>
+    <h3 style="margin-top:20px;">Notification emails</h3>
+    <div class="field">
+      <label for="setAliEmails">Ali Asgar &mdash; email(s)</label>
+      <input type="text" id="setAliEmails" placeholder="ali@example.com, ali2@example.com"/>
+      <div class="shares-hint">Separate multiple addresses with commas.</div>
+    </div>
+    <div class="field">
+      <label for="setMusEmails">Mustafa &mdash; email(s)</label>
+      <input type="text" id="setMusEmails" placeholder="mustafa@example.com"/>
+      <div class="shares-hint">Everyone listed here gets emailed on every add, edit, or delete.</div>
+    </div>
 
-  <div class="card">
-    <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Recent transactions</div>
-    <div id="recentList"></div>
+    <button class="submit-btn" id="saveSettingsBtn">Save settings</button>
   </div>
 </div>
+
 <div class="toast" id="toast"></div>
 
 <script>
   // ⚠️ REQUIRED: paste your Apps Script /exec URL here after deploying Code.gs
-  var EXEC_URL = 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
+  // Apps Script → Deploy → New deployment → Web app → Execute as Me, Access Anyone
+  var EXEC_URL = 'https://script.google.com/macros/s/AKfycbxGoUCplKH-8xECCYsqT0vvfh2PxH44--RAoPEJ828vd7_emhDE2CPjUaWxZ7VPxINo3g/exec';
 
-  var STATE = { people: ['Person A','Person B','Person C','Person D'], expenses: [], settlements: [], balances: { net:{}, suggestions:[] } };
+  var STATE = { expenses: [], settlements: [], settings: {defaultShareAli:1, defaultShareMus:1}, balances:{net:0,aliOwesMustafa:0,mustafaOwesAli:0} };
+  var selectedPayer = 'ali';
+  var selectedFrom = 'ali';
+  var selectedMode = 'Cash';
+  var editingExpenseId = null;
+  var editingExpenseOriginalTime = null;
+  var editingSettlementId = null;
+
+  // GET wrapper — reads data
+  function apiGet(){
+    return fetch(EXEC_URL + '?action=data')
+      .then(function(res){ return res.json(); })
+      .then(function(json){
+        if (json.status !== 'ok') throw new Error(json.message || 'Unknown API error');
+        return json.data;
+      });
+  }
+
+  // POST wrapper — writes data. Sent as text/plain to avoid a CORS preflight
+  // that Apps Script cannot answer; Code.gs still parses the body as JSON.
+  function apiPost(type, data){
+    return fetch(EXEC_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ type: type, data: data })
+    })
+      .then(function(res){ return res.json(); })
+      .then(function(json){
+        if (json.status !== 'ok') throw new Error(json.message || 'Unknown API error');
+        return json.data;
+      });
+  }
 
   function todayStr(){ return new Date().toISOString().slice(0,10); }
   function nowTimeStr(){ var d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
 
-  function apiGet(){
-    return fetch(EXEC_URL + '?action=data').then(function(r){return r.json();}).then(function(j){
-      if (j.status !== 'ok') throw new Error(j.message || 'API error');
-      return j.data;
-    });
-  }
-  function apiPost(type, data){
-    return fetch(EXEC_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify({type:type, data:data}) })
-      .then(function(r){return r.json();}).then(function(j){
-        if (j.status !== 'ok') throw new Error(j.message || 'API error');
-        return j.data;
-      });
-  }
-
-  function switchTab(tab){
-    ['expense','settle','balance'].forEach(function(t){
-      document.getElementById('tab'+cap(t)).classList.toggle('active', t===tab);
-    });
-    document.getElementById('expenseForm').style.display = tab==='expense' ? 'block':'none';
-    document.getElementById('settleForm').style.display = tab==='settle' ? 'block':'none';
-    document.getElementById('balanceCard').style.display = tab==='balance' ? 'block':'none';
-  }
-  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
-
-  function populateSelects(){
-    var payerSel = document.getElementById('expPayer');
-    var fromSel = document.getElementById('setFrom');
-    var toSel = document.getElementById('setTo');
-    [payerSel, fromSel, toSel].forEach(function(sel){ sel.innerHTML=''; });
-    STATE.people.forEach(function(p){
-      [payerSel, fromSel, toSel].forEach(function(sel){
-        var o = document.createElement('option'); o.value = p; o.textContent = p; sel.appendChild(o);
-      });
-    });
-    toSel.selectedIndex = 1;
-
-    var grid = document.getElementById('sharesGrid');
-    grid.innerHTML = STATE.people.map(function(p,i){
-      return '<div class="field"><label>'+p+'</label><input type="number" class="share-input" data-person="'+p+'" min="0" step="1" value="1"></div>';
-    }).join('');
-  }
-
   function init(){
     document.getElementById('expDate').value = todayStr();
     document.getElementById('setDate').value = todayStr();
+    document.getElementById('setTime').value = nowTimeStr();
+
     document.getElementById('tabExpense').onclick = function(){ switchTab('expense'); };
     document.getElementById('tabSettle').onclick = function(){ switchTab('settle'); };
-    document.getElementById('tabBalance').onclick = function(){ switchTab('balance'); };
+    document.getElementById('tabReport').onclick = function(){ switchTab('report'); };
+
+    document.getElementById('reportMonth').value = todayStr().slice(0,7);
+    document.getElementById('reportFrom').value = todayStr();
+    document.getElementById('reportTo').value = todayStr();
+    document.querySelectorAll('#reportModeToggle .mode-opt').forEach(function(el){
+      el.onclick = function(){
+        document.querySelectorAll('#reportModeToggle .mode-opt').forEach(function(m){ m.classList.remove('sel'); });
+        el.classList.add('sel');
+        var mode = el.getAttribute('data-rmode');
+        document.getElementById('reportMonthField').style.display = mode==='month' ? 'block' : 'none';
+        document.getElementById('reportCustomFields').style.display = mode==='custom' ? 'flex' : 'none';
+      };
+    });
+    document.getElementById('runReportBtn').onclick = renderReport;
+
+    document.getElementById('payerAli').onclick = function(){ setPayer('ali'); };
+    document.getElementById('payerMus').onclick = function(){ setPayer('mus'); };
+    document.getElementById('fromAli').onclick = function(){ setFrom('ali'); };
+    document.getElementById('fromMus').onclick = function(){ setFrom('mus'); };
+
+    document.getElementById('recentList').addEventListener('click', handleFeedClick);
+    document.getElementById('reportList').addEventListener('click', handleFeedClick);
+    document.getElementById('cancelExpenseEdit').onclick = cancelExpenseEdit;
+    document.getElementById('cancelSettleEdit').onclick = cancelSettleEdit;
+
+    document.querySelectorAll('.mode-opt').forEach(function(el){
+      el.onclick = function(){
+        document.querySelectorAll('.mode-opt').forEach(function(m){ m.classList.remove('sel'); });
+        el.classList.add('sel');
+        selectedMode = el.getAttribute('data-mode');
+      };
+    });
+
     document.getElementById('submitExpense').onclick = submitExpense;
-    document.getElementById('submitSettle').onclick = submitSettle;
+    document.getElementById('submitSettle').onclick = submitSettlement;
+
+    document.getElementById('settingsBtn').onclick = openSettings;
+    document.getElementById('closeSettings').onclick = closeSettings;
+    document.getElementById('saveSettingsBtn').onclick = saveSettingsHandler;
+
+    // select-all on amount field focus
     ['expAmount','setAmount'].forEach(function(id){
       document.getElementById(id).addEventListener('focus', function(){ this.select(); });
     });
 
-    if (!EXEC_URL || EXEC_URL.indexOf('PASTE_YOUR')===0){
-      showToast('Set EXEC_URL in the code first');
-      populateSelects();
+    if (!EXEC_URL || EXEC_URL.indexOf('PASTE_YOUR') === 0) {
+      showToast('Set EXEC_URL in index.html first');
+      document.getElementById('recentList').innerHTML = '<div class="empty-state">App not connected yet — set EXEC_URL in the code.</div>';
       return;
     }
-    apiGet().then(function(data){
-      STATE = data;
-      populateSelects();
-      render();
-    }).catch(function(err){ showToast('Error: '+err.message); populateSelects(); });
+    apiGet().then(onDataLoaded).catch(onError);
   }
 
-  function render(){
+  function onDataLoaded(data){
+    STATE = data;
+    document.getElementById('shareAli').value = data.settings.defaultShareAli;
+    document.getElementById('shareMus').value = data.settings.defaultShareMus;
+    document.getElementById('setDefAli').value = data.settings.defaultShareAli;
+    document.getElementById('setDefMus').value = data.settings.defaultShareMus;
+    document.getElementById('setAliEmails').value = data.settings.aliEmails || '';
+    document.getElementById('setMusEmails').value = data.settings.mustafaEmails || '';
     renderBalances();
     renderRecent();
+    renderReport();
+  }
+
+  function onError(err){
+    showToast('Error: ' + (err && err.message ? err.message : err));
+  }
+
+  function switchTab(tab){
+    document.getElementById('tabExpense').classList.toggle('active', tab==='expense');
+    document.getElementById('tabSettle').classList.toggle('active', tab==='settle');
+    document.getElementById('tabReport').classList.toggle('active', tab==='report');
+    document.getElementById('expenseForm').style.display = tab==='expense' ? 'block' : 'none';
+    document.getElementById('settleForm').style.display = tab==='settle' ? 'block' : 'none';
+    document.getElementById('reportForm').style.display = tab==='report' ? 'block' : 'none';
+    document.getElementById('recentWrap').style.display = tab==='report' ? 'none' : 'block';
+    if (tab==='report') renderReport();
+  }
+
+  function setPayer(p){
+    selectedPayer = p;
+    document.getElementById('payerAli').className = 'payer-opt' + (p==='ali' ? ' sel-ali' : '');
+    document.getElementById('payerMus').className = 'payer-opt' + (p==='mus' ? ' sel-mus' : '');
+  }
+  function setFrom(p){
+    selectedFrom = p;
+    document.getElementById('fromAli').className = 'payer-opt' + (p==='ali' ? ' sel-ali' : '');
+    document.getElementById('fromMus').className = 'payer-opt' + (p==='mus' ? ' sel-mus' : '');
   }
 
   function renderBalances(){
-    var netList = document.getElementById('netList');
-    netList.innerHTML = STATE.people.map(function(p){
-      var v = STATE.balances.net[p] || 0;
-      var cls = v > 0.01 ? 'pos' : (v < -0.01 ? 'neg' : '');
-      var label = v > 0.01 ? 'is owed' : (v < -0.01 ? 'owes' : 'settled');
-      return '<div class="balance-row"><span>'+p+'</span><span>'+label+' <b class="'+cls+'">'+Math.abs(v).toFixed(2)+'</b></span></div>';
-    }).join('');
+    var b = STATE.balances;
+    document.getElementById('amtAli').textContent = 'AED ' + Math.abs(b.mustafaOwesAli || (b.net<0?Math.abs(b.net):0)).toFixed(0);
+    document.getElementById('amtMus').textContent = 'AED ' + Math.abs(b.aliOwesMustafa || (b.net>0?b.net:0)).toFixed(0);
 
-    var sg = document.getElementById('suggestList');
-    if (!STATE.balances.suggestions.length){
-      sg.innerHTML = '<div class="empty">Everyone is settled up.</div>';
+    var net = b.net || 0;
+    var maxTilt = 10; // degrees
+    var tilt = Math.max(-maxTilt, Math.min(maxTilt, net / 50));
+
+    var barWidth = 140;
+    var bar = document.querySelector('.seesaw-bar');
+    if(!bar){
+      bar = document.createElement('div');
+      bar.className = 'seesaw-bar';
+      document.querySelector('.seesaw').insertBefore(bar, document.querySelector('.seesaw-fulcrum'));
+    }
+    bar.style.width = barWidth + 'px';
+    bar.style.left = 'calc(50% - ' + (barWidth/2) + 'px)';
+    bar.style.background = net === 0 ? '#D8CFC4' : (net > 0 ? 'var(--mus)' : 'var(--ali)');
+    bar.style.transform = 'rotate(' + tilt + 'deg)';
+
+    document.getElementById('pillAli').style.transform = 'translateY(' + (tilt*1.6) + 'px)';
+    document.getElementById('pillMus').style.transform = 'translateY(' + (-tilt*1.6) + 'px)';
+
+    var summary = document.getElementById('balanceSummary');
+    if (net === 0) {
+      summary.innerHTML = '<b>All settled up</b> — no balance owed.';
+    } else if (net > 0) {
+      summary.innerHTML = '<b>Ali Asgar</b> owes <b>Mustafa</b> AED ' + net.toFixed(2);
     } else {
-      sg.innerHTML = STATE.balances.suggestions.map(function(s){
-        return '<div class="suggestion"><b>'+s.from+'</b> pays <b>'+s.to+'</b> — '+s.amount.toFixed(2)+'</div>';
-      }).join('');
+      summary.innerHTML = '<b>Mustafa</b> owes <b>Ali Asgar</b> AED ' + Math.abs(net).toFixed(2);
     }
   }
 
-  function renderRecent(){
-    var feed = [];
-    STATE.expenses.forEach(function(x){
-      feed.push({ sortDate: new Date(x.date+' '+(x.time||'00:00')), title: x.place, sub: x.payer+' paid · '+x.date+(x.time?' '+x.time:''), amount: x.amount });
-    });
-    STATE.settlements.forEach(function(s){
-      feed.push({ sortDate: new Date(s.date+' '+(s.time||'00:00')), title: s.from+' → '+s.to, sub: s.mode+' · '+s.date+(s.time?' '+s.time:''), amount: s.amount });
-    });
-    feed.sort(function(a,b){ return b.sortDate - a.sortDate; });
-    var list = document.getElementById('recentList');
-    if (!feed.length){ list.innerHTML = '<div class="empty">No transactions yet.</div>'; return; }
-    list.innerHTML = feed.slice(0,20).map(function(t){
-      return '<div class="txn"><div><div>'+escapeHtml(t.title||'(no description)')+'</div><div class="txn-sub">'+escapeHtml(t.sub)+'</div></div><div><b>'+Number(t.amount).toFixed(2)+'</b></div></div>';
-    }).join('');
+  function iconExpense(){
+    return '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg>';
+  }
+  function iconSettle(){
+    return '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l-4 5 4 5M17 7l4 5-4 5M14 4l-4 16"/></svg>';
   }
 
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function buildFeed(){
+    var feed = [];
+    STATE.expenses.forEach(function(x){
+      feed.push({
+        kind:'expense', id:x.id, date:x.date, time:x.time || '',
+        sortDate:new Date(x.date + ' ' + (x.time || '00:00')),
+        title:x.place, sub:x.payerLabel + ' paid', amount:x.amount, payer:x.payerLabel
+      });
+    });
+    STATE.settlements.forEach(function(s){
+      feed.push({
+        kind:'settle', id:s.id, date:s.date, time:s.time || '',
+        sortDate:new Date(s.date + ' ' + (s.time || '00:00')),
+        title:s.fromLabel + ' → ' + s.toLabel, sub:s.mode, amount:s.amount
+      });
+    });
+    feed.sort(function(a,b){ return b.sortDate - a.sortDate; });
+    return feed;
+  }
+
+  function iconEdit(){
+    return '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
+  }
+  function iconTrash(){
+    return '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>';
+  }
+
+  function feedItemHtml(t){
+    var iconClass = t.kind === 'settle' ? 'settle' : (t.payer === 'Ali Asgar' ? 'ali' : 'mus');
+    var icon = t.kind === 'settle' ? iconSettle() : iconExpense();
+    var dateFmt = t.sortDate instanceof Date && !isNaN(t.sortDate) ? t.sortDate.toDateString().slice(4,10) : t.date;
+    var timeFmt = t.time ? t.time : '';
+    return '<div class="txn-card">' +
+      '<div class="txn-icon ' + iconClass + '">' + icon + '</div>' +
+      '<div class="txn-body">' +
+        '<div class="txn-title">' + escapeHtml(t.title || '(no description)') + '</div>' +
+        '<div class="txn-sub">' + escapeHtml(t.sub) + (timeFmt ? ' · ' + timeFmt : '') + ' · ' + dateFmt + '</div>' +
+      '</div>' +
+      '<div class="txn-amt">AED ' + Number(t.amount).toFixed(2) + '</div>' +
+      '<div class="txn-actions">' +
+        '<button class="txn-action-btn" data-action="edit" data-kind="' + t.kind + '" data-id="' + t.id + '" aria-label="Edit">' + iconEdit() + '</button>' +
+        '<button class="txn-action-btn" data-action="delete" data-kind="' + t.kind + '" data-id="' + t.id + '" aria-label="Delete">' + iconTrash() + '</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function handleFeedClick(ev){
+    var btn = ev.target.closest('.txn-action-btn');
+    if (!btn) return;
+    var action = btn.getAttribute('data-action');
+    var kind = btn.getAttribute('data-kind');
+    var id = btn.getAttribute('data-id');
+    if (action === 'edit') startEdit(kind, id);
+    else if (action === 'delete') confirmDelete(kind, id);
+  }
+
+  function startEdit(kind, id){
+    if (kind === 'expense') {
+      var x = STATE.expenses.find(function(e){ return String(e.id) === String(id); });
+      if (!x) { showToast('Transaction not found'); return; }
+      switchTab('expense');
+      editingExpenseId = id;
+      editingExpenseOriginalTime = x.time || nowTimeStr();
+      setPayer(x.payerLabel === 'Ali Asgar' ? 'ali' : 'mus');
+      document.getElementById('expDate').value = x.date;
+      document.getElementById('expAmount').value = x.amount;
+      document.getElementById('expPlace').value = x.place;
+      document.getElementById('shareAli').value = x.shareAli;
+      document.getElementById('shareMus').value = x.shareMus;
+      document.getElementById('expNote').value = x.note || '';
+      document.getElementById('submitExpense').textContent = 'Update expense';
+      document.getElementById('cancelExpenseEdit').style.display = 'inline-block';
+    } else {
+      var s = STATE.settlements.find(function(e){ return String(e.id) === String(id); });
+      if (!s) { showToast('Transaction not found'); return; }
+      switchTab('settle');
+      editingSettlementId = id;
+      setFrom(s.fromLabel === 'Ali Asgar' ? 'ali' : 'mus');
+      document.getElementById('setDate').value = s.date;
+      document.getElementById('setTime').value = s.time;
+      document.getElementById('setAmount').value = s.amount;
+      document.querySelectorAll('.mode-opt').forEach(function(el){
+        el.classList.toggle('sel', el.getAttribute('data-mode') === s.mode);
+        if (el.getAttribute('data-mode') === s.mode) selectedMode = s.mode;
+      });
+      document.getElementById('setNote').value = s.note || '';
+      document.getElementById('submitSettle').textContent = 'Update settlement';
+      document.getElementById('cancelSettleEdit').style.display = 'inline-block';
+    }
+  }
+
+  function cancelExpenseEdit(){
+    editingExpenseId = null;
+    editingExpenseOriginalTime = null;
+    document.getElementById('submitExpense').textContent = 'Save expense';
+    document.getElementById('cancelExpenseEdit').style.display = 'none';
+    document.getElementById('expAmount').value = '';
+    document.getElementById('expPlace').value = '';
+    document.getElementById('expNote').value = '';
+  }
+  function cancelSettleEdit(){
+    editingSettlementId = null;
+    document.getElementById('submitSettle').textContent = 'Save settlement';
+    document.getElementById('cancelSettleEdit').style.display = 'none';
+    document.getElementById('setAmount').value = '';
+    document.getElementById('setNote').value = '';
+  }
+
+  function confirmDelete(kind, id){
+    var label = kind === 'expense' ? 'this expense' : 'this settlement';
+    if (!window.confirm('Delete ' + label + '? Both parties will be emailed about this change. This cannot be undone.')) return;
+    var apiType = kind === 'expense' ? 'deleteExpense' : 'deleteSettlement';
+    apiPost(apiType, { id: id }).then(function(data){
+      STATE = data;
+      renderBalances(); renderRecent(); renderReport();
+      showToast('Deleted');
+    }).catch(onError);
+  }
+
+  function renderRecent(){
+    var feed = buildFeed();
+    var list = document.getElementById('recentList');
+    if(feed.length === 0){
+      list.innerHTML = '<div class="empty-state">No transactions yet. Add your first expense above.</div>';
+      return;
+    }
+    list.innerHTML = feed.map(feedItemHtml).join('');
+  }
+
+  function renderReport(){
+    var reportListEl = document.getElementById('reportList');
+    var reportSummaryEl = document.getElementById('reportSummary');
+    if (!reportListEl || !reportSummaryEl) return; // report tab not yet in DOM on first paint
+
+    var mode = document.querySelector('#reportModeToggle .mode-opt.sel').getAttribute('data-rmode');
+    var from, to;
+    if (mode === 'month') {
+      var monthVal = document.getElementById('reportMonth').value; // "YYYY-MM"
+      if (!monthVal) { reportListEl.innerHTML = '<div class="empty-state">Pick a month above.</div>'; return; }
+      from = monthVal + '-01';
+      var d = new Date(monthVal + '-01');
+      var lastDay = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+      to = monthVal + '-' + String(lastDay).padStart(2,'0');
+    } else {
+      from = document.getElementById('reportFrom').value;
+      to = document.getElementById('reportTo').value;
+      if (!from || !to) { reportListEl.innerHTML = '<div class="empty-state">Pick both From and To dates.</div>'; return; }
+    }
+
+    var fromD = new Date(from), toD = new Date(to);
+    toD.setHours(23,59,59,999);
+
+    var feed = buildFeed().filter(function(t){
+      return t.sortDate >= fromD && t.sortDate <= toD;
+    });
+
+    // Period totals
+    var totalExpenses = 0, aliPaidTotal = 0, musPaidTotal = 0, net = 0;
+    feed.forEach(function(t){
+      if (t.kind === 'expense') {
+        totalExpenses += Number(t.amount);
+        if (t.payer === 'Ali Asgar') aliPaidTotal += Number(t.amount);
+        else musPaidTotal += Number(t.amount);
+      }
+    });
+    // Reuse same signed-balance logic, scoped to this period only
+    STATE.expenses.filter(function(x){
+      var sd = new Date(x.date + ' ' + (x.time||'00:00'));
+      return sd >= fromD && sd <= toD;
+    }).forEach(function(x){
+      var amtAli = Number(x.amountAli)||0, amtMus = Number(x.amountMus)||0;
+      if (x.payerLabel === 'Ali Asgar') net -= amtMus; else net += amtAli;
+    });
+    STATE.settlements.filter(function(s){
+      var sd = new Date(s.date + ' ' + (s.time||'00:00'));
+      return sd >= fromD && sd <= toD;
+    }).forEach(function(s){
+      var amt = Number(s.amount)||0;
+      if (s.fromLabel === 'Ali Asgar' && s.toLabel === 'Mustafa') net -= amt;
+      else if (s.fromLabel === 'Mustafa' && s.toLabel === 'Ali Asgar') net += amt;
+    });
+
+    var netLine = net === 0
+      ? 'Settled within this period'
+      : (net > 0 ? 'Ali Asgar owes Mustafa AED ' + net.toFixed(2) : 'Mustafa owes Ali Asgar AED ' + Math.abs(net).toFixed(2));
+
+    reportSummaryEl.innerHTML =
+      '<div class="txn-card" style="margin-bottom:8px;">' +
+        '<div class="txn-body"><div class="txn-title">Total expenses</div><div class="txn-sub">' + feed.filter(function(f){return f.kind==='expense';}).length + ' entries</div></div>' +
+        '<div class="txn-amt">AED ' + totalExpenses.toFixed(2) + '</div>' +
+      '</div>' +
+      '<div class="txn-card" style="margin-bottom:8px;">' +
+        '<div class="txn-icon ali"></div>' +
+        '<div class="txn-body"><div class="txn-title">Ali Asgar paid</div></div>' +
+        '<div class="txn-amt">AED ' + aliPaidTotal.toFixed(2) + '</div>' +
+      '</div>' +
+      '<div class="txn-card" style="margin-bottom:8px;">' +
+        '<div class="txn-icon mus"></div>' +
+        '<div class="txn-body"><div class="txn-title">Mustafa paid</div></div>' +
+        '<div class="txn-amt">AED ' + musPaidTotal.toFixed(2) + '</div>' +
+      '</div>' +
+      '<div class="balance-summary" style="text-align:left;padding:4px 2px;">' + netLine + '</div>';
+
+    reportListEl.innerHTML = feed.length
+      ? feed.map(feedItemHtml).join('')
+      : '<div class="empty-state">No transactions in this period.</div>';
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
 
   function submitExpense(){
     var amount = parseFloat(document.getElementById('expAmount').value);
-    var date = document.getElementById('expDate').value;
     var place = document.getElementById('expPlace').value.trim();
-    var payer = document.getElementById('expPayer').value;
+    var date = document.getElementById('expDate').value;
+    var shareAli = parseFloat(document.getElementById('shareAli').value);
+    var shareMus = parseFloat(document.getElementById('shareMus').value);
     var note = document.getElementById('expNote').value.trim();
-    var shares = {};
-    document.querySelectorAll('.share-input').forEach(function(inp){ shares[inp.getAttribute('data-person')] = parseFloat(inp.value)||0; });
-    var totalShares = Object.values(shares).reduce(function(a,b){return a+b;},0);
 
-    if (!amount || amount<=0){ showToast('Enter a valid amount'); return; }
-    if (!date){ showToast('Pick a date'); return; }
-    if (totalShares<=0){ showToast('Shares must add up to more than 0'); return; }
+    if (!amount || amount <= 0) { showToast('Enter a valid amount'); return; }
+    if (!date) { showToast('Pick a date'); return; }
+    if ((shareAli||0) + (shareMus||0) <= 0) { showToast('Shares must add up to more than 0'); return; }
 
     var btn = document.getElementById('submitExpense');
-    btn.disabled = true; btn.textContent = 'Saving…';
-    apiPost('expense', { date:date, time:nowTimeStr(), place:place, amount:amount, payer:payer, shares:shares, note:note })
-      .then(function(data){
-        STATE = data; render();
-        document.getElementById('expAmount').value=''; document.getElementById('expPlace').value=''; document.getElementById('expNote').value='';
-        btn.disabled=false; btn.textContent='Save expense'; showToast('Expense saved');
-      }).catch(function(err){ btn.disabled=false; btn.textContent='Save expense'; showToast('Error: '+err.message); });
+    var isEdit = !!editingExpenseId;
+    btn.disabled = true; btn.textContent = isEdit ? 'Updating…' : 'Saving…';
+
+    var payload = {
+      date: date, time: isEdit ? editingExpenseOriginalTime : nowTimeStr(), place: place, amount: amount,
+      payer: selectedPayer, shareAli: shareAli, shareMus: shareMus, note: note
+    };
+    if (isEdit) payload.id = editingExpenseId;
+
+    apiPost('expense', payload).then(function(data){
+      STATE = data;
+      renderBalances(); renderRecent(); renderReport();
+      document.getElementById('expAmount').value = '';
+      document.getElementById('expPlace').value = '';
+      document.getElementById('expNote').value = '';
+      btn.disabled = false;
+      showToast(isEdit ? 'Expense updated' : 'Expense saved');
+      if (isEdit) cancelExpenseEdit(); else btn.textContent = 'Save expense';
+    }).catch(function(err){
+      btn.disabled = false; btn.textContent = isEdit ? 'Update expense' : 'Save expense';
+      onError(err);
+    });
   }
 
-  function submitSettle(){
-    var from = document.getElementById('setFrom').value;
-    var to = document.getElementById('setTo').value;
+  function submitSettlement(){
     var amount = parseFloat(document.getElementById('setAmount').value);
     var date = document.getElementById('setDate').value;
-    var mode = document.getElementById('setMode').value;
+    var time = document.getElementById('setTime').value;
     var note = document.getElementById('setNote').value.trim();
 
-    if (from === to){ showToast('From and To must differ'); return; }
-    if (!amount || amount<=0){ showToast('Enter a valid amount'); return; }
-    if (!date){ showToast('Pick a date'); return; }
+    if (!amount || amount <= 0) { showToast('Enter a valid amount'); return; }
+    if (!date) { showToast('Pick a date'); return; }
 
     var btn = document.getElementById('submitSettle');
+    var isEdit = !!editingSettlementId;
+    btn.disabled = true; btn.textContent = isEdit ? 'Updating…' : 'Saving…';
+
+    var from = selectedFrom, to = selectedFrom === 'ali' ? 'mus' : 'ali';
+    var payload = { date: date, time: time, from: from, to: to, amount: amount, mode: selectedMode, note: note };
+    if (isEdit) payload.id = editingSettlementId;
+
+    apiPost('settlement', payload).then(function(data){
+      STATE = data;
+      renderBalances(); renderRecent(); renderReport();
+      document.getElementById('setAmount').value = '';
+      document.getElementById('setNote').value = '';
+      btn.disabled = false;
+      showToast(isEdit ? 'Settlement updated' : 'Settlement saved');
+      if (isEdit) cancelSettleEdit(); else btn.textContent = 'Save settlement';
+    }).catch(function(err){
+      btn.disabled = false; btn.textContent = isEdit ? 'Update settlement' : 'Save settlement';
+      onError(err);
+    });
+  }
+
+  function openSettings(){ document.getElementById('settingsModal').classList.add('open'); }
+  function closeSettings(){ document.getElementById('settingsModal').classList.remove('open'); }
+
+  function saveSettingsHandler(){
+    var a = parseFloat(document.getElementById('setDefAli').value);
+    var m = parseFloat(document.getElementById('setDefMus').value);
+    if (a < 0 || m < 0 || isNaN(a) || isNaN(m)) { showToast('Enter valid share numbers'); return; }
+    var aliEmails = document.getElementById('setAliEmails').value.trim();
+    var musEmails = document.getElementById('setMusEmails').value.trim();
+
+    var btn = document.getElementById('saveSettingsBtn');
     btn.disabled = true; btn.textContent = 'Saving…';
-    apiPost('settlement', { date:date, time:nowTimeStr(), from:from, to:to, amount:amount, mode:mode, note:note })
-      .then(function(data){
-        STATE = data; render();
-        document.getElementById('setAmount').value=''; document.getElementById('setNote').value='';
-        btn.disabled=false; btn.textContent='Save settlement'; showToast('Settlement saved');
-      }).catch(function(err){ btn.disabled=false; btn.textContent='Save settlement'; showToast('Error: '+err.message); });
+
+    apiPost('settings', { defaultShareAli: a, defaultShareMus: m, aliEmails: aliEmails, mustafaEmails: musEmails }).then(function(data){
+      STATE = data;
+      document.getElementById('shareAli').value = data.settings.defaultShareAli;
+      document.getElementById('shareMus').value = data.settings.defaultShareMus;
+      document.getElementById('setAliEmails').value = data.settings.aliEmails || '';
+      document.getElementById('setMusEmails').value = data.settings.mustafaEmails || '';
+      btn.disabled = false; btn.textContent = 'Save settings';
+      closeSettings();
+      showToast('Settings updated');
+    }).catch(function(err){
+      btn.disabled = false; btn.textContent = 'Save settings';
+      onError(err);
+    });
   }
 
   var toastTimer;
   function showToast(msg){
-    var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
-    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
   }
 
   init();
