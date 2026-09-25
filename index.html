@@ -26,6 +26,28 @@
   input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);font-size:15px;font-family:inherit;background:#FFFDFB;}
   .row2{display:flex;gap:10px;} .row2 .field{flex:1;}
   .shares-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .payer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .payer-btn{
+    position:relative;padding:14px 10px;border-radius:12px;border:1.5px solid var(--line);
+    background:#FFFDFB;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;
+    text-align:center;overflow:hidden;
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1), border-color .2s ease, color .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .payer-btn:active{transform:scale(.96);}
+  .payer-btn.selected{
+    transform:scale(1.04);
+    box-shadow:0 4px 14px rgba(0,0,0,0.12);
+    border-color:transparent;
+  }
+  .payer-btn.selected::after{
+    content:'✓';position:absolute;top:4px;right:7px;font-size:11px;font-weight:800;
+    animation:popIn .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn{ from{ transform:scale(0); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  .payer-btn[data-color="0"].selected{background:#FCEEE6;color:#C94B1E;border-color:#C94B1E;}
+  .payer-btn[data-color="1"].selected{background:#E6F5EE;color:#1E7C5A;border-color:#1E7C5A;}
+  .payer-btn[data-color="2"].selected{background:#EAF1F5;color:#155263;border-color:#155263;}
+  .payer-btn[data-color="3"].selected{background:#FFF6DD;color:#9A7B12;border-color:#FFC93C;}
   .shares-grid .field label{font-weight:500;text-transform:none;font-size:13px;}
   .btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;font-size:15px;color:#fff;cursor:pointer;background:var(--teal);margin-top:4px;}
   .btn.gold{background:var(--gold);color:var(--teal);}
@@ -65,7 +87,7 @@
       <div class="field"><label>Amount</label><input type="number" id="expAmount" step="0.01" placeholder="0.00"></div>
     </div>
     <div class="field"><label>Place / Description</label><input type="text" id="expPlace" placeholder="e.g. Dinner"></div>
-    <div class="field"><label>Paid by</label><select id="expPayer"></select></div>
+    <div class="field"><label>Paid by</label><div class="payer-grid" id="payerGrid"></div></div>
     <div class="field">
       <label>Shares (editable)</label>
       <div class="shares-grid" id="sharesGrid"></div>
@@ -136,17 +158,34 @@
   }
   function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 
+  function selectPayer(person){
+    selectedPayer = person;
+    document.querySelectorAll('.payer-btn').forEach(function(btn){
+      btn.classList.toggle('selected', btn.getAttribute('data-person') === person);
+    });
+  }
+
+  var selectedPayer = null;
+
   function populateSelects(){
-    var payerSel = document.getElementById('expPayer');
     var fromSel = document.getElementById('setFrom');
     var toSel = document.getElementById('setTo');
-    [payerSel, fromSel, toSel].forEach(function(sel){ sel.innerHTML=''; });
+    [fromSel, toSel].forEach(function(sel){ sel.innerHTML=''; });
     STATE.people.forEach(function(p){
-      [payerSel, fromSel, toSel].forEach(function(sel){
+      [fromSel, toSel].forEach(function(sel){
         var o = document.createElement('option'); o.value = p; o.textContent = p; sel.appendChild(o);
       });
     });
     toSel.selectedIndex = 1;
+
+    var payerGrid = document.getElementById('payerGrid');
+    payerGrid.innerHTML = STATE.people.map(function(p, i){
+      return '<button type="button" class="payer-btn" data-person="'+escapeHtml(p)+'" data-color="'+(i%4)+'">'+escapeHtml(p)+'</button>';
+    }).join('');
+    payerGrid.querySelectorAll('.payer-btn').forEach(function(btn){
+      btn.onclick = function(){ selectPayer(btn.getAttribute('data-person')); };
+    });
+    selectPayer(STATE.people[0]);
 
     var grid = document.getElementById('sharesGrid');
     grid.innerHTML = STATE.people.map(function(p,i){
@@ -224,12 +263,13 @@
     var amount = parseFloat(document.getElementById('expAmount').value);
     var date = document.getElementById('expDate').value;
     var place = document.getElementById('expPlace').value.trim();
-    var payer = document.getElementById('expPayer').value;
+    var payer = selectedPayer;
     var note = document.getElementById('expNote').value.trim();
     var shares = {};
     document.querySelectorAll('.share-input').forEach(function(inp){ shares[inp.getAttribute('data-person')] = parseFloat(inp.value)||0; });
     var totalShares = Object.values(shares).reduce(function(a,b){return a+b;},0);
 
+    if (!payer){ showToast('Select who paid'); return; }
     if (!amount || amount<=0){ showToast('Enter a valid amount'); return; }
     if (!date){ showToast('Pick a date'); return; }
     if (totalShares<=0){ showToast('Shares must add up to more than 0'); return; }
