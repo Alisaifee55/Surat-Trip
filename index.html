@@ -54,6 +54,18 @@
   .payer-btn[data-color="2"].selected{background:#EAF1F5;color:#155263;border-color:#155263;}
   .payer-btn[data-color="3"].selected{background:#FFF6DD;color:#9A7B12;border-color:#FFC93C;}
 
+  #expAmount, #setAmount{ transition:transform .18s cubic-bezier(.34,1.56,.64,1), font-size .18s ease, border-color .18s ease, box-shadow .18s ease; transform-origin:left center; }
+  #expAmount:focus, #setAmount:focus{
+    transform:scale(1.08); font-size:19px; font-weight:700; color:var(--teal);
+    border-color:var(--teal); outline:none; box-shadow:0 0 0 3px rgba(21,82,99,0.14);
+  }
+  .payer-grid.pulse{ animation:pulseShake .45s ease; }
+  @keyframes pulseShake{
+    0%,100%{ transform:translateX(0); }
+    20%{ transform:translateX(-5px); } 40%{ transform:translateX(5px); }
+    60%{ transform:translateX(-3px); } 80%{ transform:translateX(3px); }
+  }
+
   .overview-card{padding-top:18px;padding-bottom:16px;}
   .overview-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;}
   .overview-chips{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
