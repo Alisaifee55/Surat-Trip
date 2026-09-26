@@ -19,60 +19,53 @@
     --bg:#FBF7F2; --card:#FFFFFF; --ink:#2C1A08; --muted:#8A7A6D; --line:#EFE6DC;
     --teal:#155263; --gold:#FFC93C; --shadow:0 8px 24px rgba(44,26,8,0.08);
   }
-  *{box-sizing:border-box;} body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;padding-bottom:40px;}
-  .wrap{max-width:520px;margin:0 auto;padding:18px 16px;}
-  .app-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;background:var(--teal);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);}
-  .app-header img{width:42px;height:42px;border-radius:10px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,0.15);}
-  .app-header h1{font-family:'Poppins',sans-serif;font-size:18px;margin:0;color:#fff;font-weight:800;}
-  .card{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px;}
-  .field{margin-bottom:12px;} label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;}
-  input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);font-size:15px;font-family:inherit;background:#FFFDFB;}
-  .row2{display:flex;gap:10px;} .row2 .field{flex:1;min-width:0;}
-  input,select,textarea{min-width:0;}
-  @media (max-width:380px){ .row2{flex-direction:column;} }
+  *{box-sizing:border-box;} body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;padding-bottom:30px;}
+  .wrap{max-width:520px;margin:0 auto;padding:14px 16px;}
+  .app-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;background:var(--teal);border-radius:14px;padding:11px 14px;box-shadow:var(--shadow);}
+  .app-header img{width:40px;height:40px;border-radius:10px;flex:none;box-shadow:0 2px 6px rgba(0,0,0,0.15);}
+  .app-header h1{font-family:'Poppins',sans-serif;font-size:17px;margin:0;color:#fff;font-weight:800;}
+  .card{background:var(--card);border-radius:16px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px;}
+  .field{margin-bottom:10px;} label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;}
+  input,select,textarea{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);font-size:15px;font-family:inherit;background:#FFFDFB;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .row2 .field{min-width:0;overflow:hidden;}
+  input,select,textarea{min-width:0;width:100%;}
+  input[type="date"]{font-size:14px;padding-right:6px;}
   .shares-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .payer-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .payer-btn{
-    position:relative;padding:14px 10px;border-radius:12px;border:1.5px solid var(--line);
-    background:#FFFDFB;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;
-    text-align:center;overflow:hidden;
-    transition:transform .18s cubic-bezier(.34,1.56,.64,1), border-color .2s ease, color .2s ease, background .2s ease, box-shadow .2s ease;
-  }
-  .payer-btn:active{transform:scale(.96);}
-  .payer-btn.selected{
-    transform:scale(1.04);
-    box-shadow:0 4px 14px rgba(0,0,0,0.12);
-    border-color:transparent;
-  }
-  .payer-btn.selected::after{
-    content:'✓';position:absolute;top:4px;right:7px;font-size:11px;font-weight:800;
-    animation:popIn .25s cubic-bezier(.34,1.56,.64,1);
-  }
-  @keyframes popIn{ from{ transform:scale(0); opacity:0; } to{ transform:scale(1); opacity:1; } }
-  .payer-btn[data-color="0"].selected{background:#FCEEE6;color:#C94B1E;border-color:#C94B1E;}
-  .payer-btn[data-color="1"].selected{background:#E6F5EE;color:#1E7C5A;border-color:#1E7C5A;}
-  .payer-btn[data-color="2"].selected{background:#EAF1F5;color:#155263;border-color:#155263;}
-  .payer-btn[data-color="3"].selected{background:#FFF6DD;color:#9A7B12;border-color:#FFC93C;}
 
   #expAmount, #setAmount{ transition:transform .18s cubic-bezier(.34,1.56,.64,1), font-size .18s ease, border-color .18s ease, box-shadow .18s ease; transform-origin:left center; }
   #expAmount:focus, #setAmount:focus{
     transform:scale(1.08); font-size:19px; font-weight:700; color:var(--teal);
     border-color:var(--teal); outline:none; box-shadow:0 0 0 3px rgba(21,82,99,0.14);
   }
-  .payer-grid.pulse{ animation:pulseShake .45s ease; }
+  .overview-chips.pulse{ animation:pulseShake .45s ease; }
   @keyframes pulseShake{
     0%,100%{ transform:translateX(0); }
     20%{ transform:translateX(-5px); } 40%{ transform:translateX(5px); }
     60%{ transform:translateX(-3px); } 80%{ transform:translateX(3px); }
   }
 
-  .overview-card{padding-top:18px;padding-bottom:16px;}
-  .overview-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px;}
-  .overview-chips{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .overview-card{padding-top:16px;padding-bottom:14px;}
+  .overview-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px;}
+  .overview-chips{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;}
   .chip{
-    display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;
-    background:#F8F5F0;animation:chipIn .4s cubic-bezier(.34,1.56,.64,1) backwards;
+    display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:14px;
+    background:#F8F5F0;border:1.5px solid transparent;cursor:pointer;
+    animation:chipIn .4s cubic-bezier(.34,1.56,.64,1) backwards;
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1), border-color .2s ease, box-shadow .2s ease;
+    position:relative; text-align:left; width:100%;
   }
+  .chip:active{transform:scale(.96);}
+  .chip.selected{ transform:scale(1.03); box-shadow:0 4px 14px rgba(0,0,0,0.12); }
+  .chip.selected::after{
+    content:'✓'; position:absolute; top:5px; right:7px; font-size:10px; font-weight:800; color:inherit;
+    animation:popIn .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn{ from{ transform:scale(0); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  .chip[data-color="0"].selected{background:#FCEEE6;border-color:#C94B1E;}
+  .chip[data-color="1"].selected{background:#E6F5EE;border-color:#1E7C5A;}
+  .chip[data-color="2"].selected{background:#EAF1F5;border-color:#155263;}
+  .chip[data-color="3"].selected{background:#FFF6DD;border-color:#FFC93C;}
   .chip:nth-child(1){animation-delay:.03s;} .chip:nth-child(2){animation-delay:.08s;}
   .chip:nth-child(3){animation-delay:.13s;} .chip:nth-child(4){animation-delay:.18s;}
   @keyframes chipIn{ from{opacity:0;transform:translateY(6px) scale(.95);} to{opacity:1;transform:translateY(0) scale(1);} }
@@ -85,14 +78,14 @@
   .chip-amt{font-size:12px;font-weight:600;}
   .chip-amt.pos{color:#1E7C5A;} .chip-amt.neg{color:#C94B1E;} .chip-amt.zero{color:var(--muted);}
   .overview-headline{
-    margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
-    font-size:14px;text-align:center;color:var(--ink);font-weight:500;
+    margin-top:12px;padding-top:12px;border-top:1px solid var(--line);
+    font-size:13.5px;text-align:center;color:var(--ink);font-weight:500;
   }
   .overview-headline b{font-weight:800;}
   .shares-grid .field label{font-weight:500;text-transform:none;font-size:13px;}
-  .btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;font-size:15px;color:#fff;cursor:pointer;background:var(--teal);margin-top:4px;}
+  .btn{width:100%;padding:12px;border:none;border-radius:12px;font-weight:700;font-size:15px;color:#fff;cursor:pointer;background:var(--teal);margin-top:2px;}
   .btn.gold{background:var(--gold);color:var(--teal);}
-  .tabs{display:flex;background:var(--card);border-radius:12px;padding:4px;box-shadow:var(--shadow);margin-bottom:16px;}
+  .tabs{display:flex;background:var(--card);border-radius:12px;padding:4px;box-shadow:var(--shadow);margin-bottom:12px;}
   .tab{flex:1;text-align:center;padding:9px 0;border-radius:9px;font-weight:700;font-size:13.5px;cursor:pointer;color:var(--muted);}
   .tab.active{background:var(--teal);color:#fff;}
   .balance-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;}
@@ -117,7 +110,7 @@
   </div>
 
   <div class="card overview-card">
-    <div class="overview-title">Balance overview</div>
+    <div class="overview-title" id="overviewTitle">Balance overview</div>
     <div class="overview-chips" id="overviewChips"></div>
     <div class="overview-headline" id="overviewHeadline"></div>
   </div>
@@ -133,8 +126,7 @@
       <div class="field"><label>Date</label><input type="date" id="expDate"></div>
       <div class="field"><label>Amount</label><input type="number" id="expAmount" step="0.01" placeholder="0.00"></div>
     </div>
-    <div class="field"><label>Place / Description</label><input type="text" id="expPlace" placeholder="e.g. Dinner"></div>
-    <div class="field"><label>Paid by</label><div class="payer-grid" id="payerGrid"></div></div>
+    <div class="field"><label>Place / Description *</label><input type="text" id="expPlace" placeholder="e.g. Dinner"></div>
     <div class="field">
       <label>Shares (editable)</label>
       <div class="shares-grid" id="sharesGrid"></div>
@@ -202,13 +194,14 @@
     document.getElementById('expenseForm').style.display = tab==='expense' ? 'block':'none';
     document.getElementById('settleForm').style.display = tab==='settle' ? 'block':'none';
     document.getElementById('balanceCard').style.display = tab==='balance' ? 'block':'none';
+    document.getElementById('overviewTitle').textContent = tab==='expense' ? 'Who paid? (tap a name)' : 'Balance overview';
   }
   function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 
   function selectPayer(person){
     selectedPayer = person;
-    document.querySelectorAll('.payer-btn').forEach(function(btn){
-      btn.classList.toggle('selected', btn.getAttribute('data-person') === person);
+    document.querySelectorAll('.chip').forEach(function(chip){
+      chip.classList.toggle('selected', chip.getAttribute('data-person') === person);
     });
   }
 
@@ -233,8 +226,8 @@
   function requirePayerBeforeAmount(){
     if (selectedPayer) return true;
     showToast('Select who paid first');
-    var grid = document.getElementById('payerGrid');
-    grid.classList.remove('pulse'); void grid.offsetWidth; grid.classList.add('pulse');
+    var chips = document.getElementById('overviewChips');
+    chips.classList.remove('pulse'); void chips.offsetWidth; chips.classList.add('pulse');
     return false;
   }
 
@@ -251,15 +244,6 @@
     });
     toSel.selectedIndex = 1;
 
-    var payerGrid = document.getElementById('payerGrid');
-    payerGrid.innerHTML = STATE.people.map(function(p, i){
-      return '<button type="button" class="payer-btn" data-person="'+escapeHtml(p)+'" data-color="'+(i%4)+'">'+escapeHtml(p)+'</button>';
-    }).join('');
-    payerGrid.querySelectorAll('.payer-btn').forEach(function(btn){
-      btn.onclick = function(){ selectPayer(btn.getAttribute('data-person')); };
-    });
-    // No default payer — each expense requires an explicit, deliberate choice.
-
     var grid = document.getElementById('sharesGrid');
     grid.innerHTML = STATE.people.map(function(p,i){
       return '<div class="field"><label>'+p+'</label><input type="number" class="share-input" data-person="'+p+'" min="0" step="1" value="1"></div>';
@@ -269,6 +253,7 @@
   var CACHE_KEY = 'surattrip_cache_v1';
 
   function init(){
+    document.getElementById('overviewTitle').textContent = 'Who paid? (tap a name)';
     document.getElementById('expDate').value = todayStr();
     document.getElementById('setDate').value = todayStr();
     document.getElementById('tabExpense').onclick = function(){ switchTab('expense'); };
@@ -328,11 +313,15 @@
       var v = STATE.balances.net[p] || 0;
       var cls = v > 0.01 ? 'pos' : (v < -0.01 ? 'neg' : 'zero');
       var label = v > 0.01 ? '+' + v.toFixed(0) : (v < -0.01 ? '-' + Math.abs(v).toFixed(0) : 'settled');
-      return '<div class="chip">' +
+      var isSel = p === selectedPayer ? ' selected' : '';
+      return '<button type="button" class="chip'+isSel+'" data-person="'+escapeHtml(p)+'" data-color="'+(i%4)+'">' +
         '<div class="chip-avatar" style="background:'+AVATAR_COLORS[i%4]+';">'+initials(p)+'</div>' +
         '<div class="chip-body"><div class="chip-name">'+escapeHtml(p)+'</div><div class="chip-amt '+cls+'">'+label+'</div></div>' +
-      '</div>';
+      '</button>';
     }).join('');
+    chips.querySelectorAll('.chip').forEach(function(chip){
+      chip.onclick = function(){ selectPayer(chip.getAttribute('data-person')); };
+    });
 
     var sug = STATE.balances.suggestions;
     if (!sug.length){
@@ -392,6 +381,7 @@
     var totalShares = Object.values(shares).reduce(function(a,b){return a+b;},0);
 
     if (!payer){ showToast('Select who paid'); return; }
+    if (!place){ showToast('Enter a place or description'); document.getElementById('expPlace').focus(); return; }
     if (!amount || amount<=0){ showToast('Enter a valid amount'); return; }
     if (!date){ showToast('Pick a date'); return; }
     if (totalShares<=0){ showToast('Shares must add up to more than 0'); return; }
